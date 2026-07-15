@@ -43,10 +43,12 @@
       aspect-ratio: 9 / 16;
       max-width: 576px; 
 
-      background-image: url('https://static.gwvkyk.com/media/f52710cb375a6d83004aa.png');
+      /* 已替换为您提供的最新图片 URL */
+      background-image: url('https://static.gwvkyk.com/media/4df69b51475a63c57f5f4.png');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
+      /* 背景图稍微往左偏（28%），把女孩子推向左侧，腾出右侧清晰的按钮与文字空间 */
+      background-position: 28% center; 
       box-shadow: 0 0 30px rgba(0,0,0,0.9);
       overflow: hidden;
     }
@@ -75,14 +77,6 @@
       opacity: 0;
     }
 
-    .coin::after {
-      content: '';
-      position: absolute;
-      top: 15%; left: 15%; right: 15%; bottom: 15%;
-      border: 1px dashed rgba(255,255,255,0.5);
-      border-radius: 50%;
-    }
-
     @keyframes fall-full {
       0% {
         top: -60px;
@@ -100,24 +94,53 @@
     }
 
     /* =================================================
-       4. 优化后的按钮区域：放在右下角，完全不挡内容
+       4. 右侧悬浮面板（包含重新排版的文字 + 按钮）
        ================================================= */
-    .buttons-wrapper {
+    .right-panel {
       position: absolute;
-      bottom: 23%;       /* 位于底部横幅 Banner 的上方 */
-      right: 6%;         /* 靠右对齐，完美避开左侧人和中间的文字 */
-      width: 50%;        /* 宽度适中，既好点又精致 */
+      bottom: 22%;       /* 位于底部 Banner 横幅的上方 */
+      right: 5%;         /* 整体靠右，完美避开左侧的女孩子 */
+      width: 55%;        /* 控制面板宽度，适合右侧黄金点击区 */
       display: flex;
       flex-direction: column;
-      gap: 12px;         
+      align-items: center;
       z-index: 20;       
     }
 
-    /* 纯 CSS 高清流光按钮 */
+    /* 纯 CSS 浮雕金色重写两行核心文案 */
+    .panel-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #f7b113;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+      /* 炫酷的金色发光立体字效果 */
+      text-shadow: 0 2px 4px rgba(0,0,0,1), 0 0 10px rgba(247, 177, 19, 0.5);
+    }
+    .panel-title span {
+      display: block;
+      color: #ffffff; 
+    }
+
+    .panel-subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e0e0e0;
+      text-align: center;
+      margin-bottom: 15px; 
+      letter-spacing: 0.2px;
+      text-shadow: 0 1px 3px rgba(0,0,0,1);
+      white-space: nowrap;
+    }
+
+    /* 按钮公共样式 */
     .custom-btn {
       width: 100%;
       padding: 12px 6px;
-      font-size: 15px;   /* 微调字体大小，精致耐看 */
+      font-size: 15px;   
       font-weight: 800;
       text-align: center;
       text-transform: uppercase;
@@ -132,27 +155,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      margin-top: 10px; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
       animation: subtle-pulse 2s infinite ease-in-out;
       -webkit-tap-highlight-color: transparent;
       touch-action: none;
     }
 
-    /* WEBSITE 按钮颜色：奢华绿金 */
+    /* WEBSITE 按钮：豪华绿金 */
     .btn-website {
       background: linear-gradient(135deg, #00b050 0%, #007000 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
-    /* TELEGRAM BOT 按钮颜色：官方高级蓝 */
+    /* TELEGRAM BOT 按钮：官方蓝 */
     .btn-telegram {
       background: linear-gradient(135deg, #29B6F6 0%, #039BE5 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
       text-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* 扫光动效 */
+    /* 流光扫光动效 */
     .custom-btn::after {
       content: '';
       position: absolute;
@@ -160,7 +184,7 @@
       left: -60%;
       width: 20%;
       height: 200%;
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.3);
       transform: rotate(35deg);
       filter: blur(4px);
       animation: btn-shine 3s infinite;
@@ -171,7 +195,7 @@
       font-size: 16px;
     }
 
-    /* 呼吸与扫光动画定义 */
+    /* 动画 */
     @keyframes subtle-pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.04); }
@@ -185,11 +209,11 @@
     }
 
     /* =================================================
-       5. 移动端全面屏（刘海屏）安全区自适应适配
+       5. 移动端全面屏安全区自适应适配
        ================================================= */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .buttons-wrapper {
-        bottom: calc(23% + env(safe-area-inset-bottom));
+      .right-panel {
+        bottom: calc(22% + env(safe-area-inset-bottom));
       }
     }
   </style>
@@ -202,8 +226,12 @@
       <!-- 满屏金币层 -->
       <div class="coin-container" id="coin-layer"></div>
 
-      <!-- 右下角悬浮按钮群 (避开所有核心文案与图片元素) -->
-      <div class="buttons-wrapper">
+      <!-- 右侧悬浮控制面板：文字与按钮整体靠右展示 -->
+      <div class="right-panel">
+        <!-- 重新排版的核心文案 (靠右) -->
+        <div class="panel-title">Official Platform<span>Access</span></div>
+        <div class="panel-subtitle">Secure • Trusted • Fast Payout</div>
+
         <!-- WEBSITE 按钮 -->
         <a id="website-btn" href="https://ritz99.net/RFR99F1" class="custom-btn btn-website">
           <span class="btn-icon">🌐</span> WEBSITE
@@ -232,7 +260,7 @@
       }
     })();
 
-    // 2. 满屏金币掉落逻辑
+    // 2. 满屏金币掉落
     const coinLayer = document.getElementById('coin-layer');
     function createCoin() {
       if (!coinLayer) return;
@@ -240,12 +268,12 @@
       const coin = document.createElement('div');
       coin.classList.add('coin');
       
-      const size = Math.random() * 10 + 12; // 金币尺寸微调 (12px - 22px)
+      const size = Math.random() * 10 + 12; 
       coin.style.width = `${size}px`;
       coin.style.height = `${size}px`;
       coin.style.left = `${Math.random() * 100}%`;
       
-      const duration = Math.random() * 2.5 + 2.5; // 下落速度 2.5s - 5s
+      const duration = Math.random() * 2.5 + 2.5; 
       const delay = Math.random() * 4;
       
       coin.style.animation = `fall-full ${duration}s linear ${delay}s infinite`;
@@ -256,7 +284,6 @@
       }, (duration + delay) * 1000 + 500);
     }
 
-    // 满屏初始化
     const initCoinCount = window.innerWidth < 500 ? 35 : 55;
     for (let i = 0; i < initCoinCount; i++) {
       createCoin();
