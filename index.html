@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* 页面主体容器 */
+        /* 完美还原视频移动端布局容器 */
         .container {
             width: 100%;
             max-width: 450px;
@@ -34,108 +34,194 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            border-left: 2px solid #ffd700;
-            border-right: 2px solid #ffd700;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            border-left: 3px solid #ffd700;
+            border-right: 3px solid #ffd700;
         }
 
-        /* 顶部标题区 */
+        /* 仿视频顶部的 LOGO 占位区域 */
+        .logo-area {
+            color: #ffd700;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        /* 顶部主标题 - 惊喜大礼包 */
         .header-title {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
             width: 100%;
         }
 
         .main-banner {
-            background: linear-gradient(to bottom, #ffe066, #f5b041);
-            color: #b30000;
-            font-size: 2rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            border-radius: 10px;
-            border: 3px solid #ffd700;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-shadow: 1px 1px 0px #fff;
-            letter-spacing: 1px;
+            color: #ffe066;
+            font-size: 2.8rem;
+            font-weight: 900;
+            text-shadow: 3px 3px 0px #660000, -1px -1px 0px #660000, 1px -1px 0px #660000, -1px 1px 0px #660000, 1px 1px 0px #660000;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
+        /* 中间副标题花框 - 你的幸运红包 */
         .sub-banner {
-            margin-top: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px dashed #ffd700;
-            padding: 10px 15px;
-            border-radius: 8px;
+            margin: 0 auto;
+            max-width: 90%;
+            background: linear-gradient(to bottom, #d32f2f, #990000);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 6px;
             color: #fff;
             font-size: 0.95rem;
-            line-height: 1.4;
+            line-height: 1.5;
+            position: relative;
         }
+
+        .sub-banner::before, .sub-banner::after {
+            content: '✦';
+            color: #ffd700;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .sub-banner::before { left: 8px; }
+        .sub-banner::after { right: 8px; }
 
         .sub-banner span.highlight {
             color: #ffcc00;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
+            display: block;
+            margin-top: 2px;
         }
 
-        /* 红包主区域 */
-        .angpao-wrapper {
-            margin: 40px 0;
+        /* 中部圆形底盘与红包区域 */
+        .angpao-zone {
             position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        /* 还原视频红金相间的大圆形发光背景底盘 */
+        .circle-bg {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: repeating-conic-gradient(#d32f2f 0% 6%, #ffd700 6% 8%, #b30000 8% 14%);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,215,0,0.4);
+            border: 6px double #ffd700;
+            z-index: 1;
+        }
+
+        /* 装饰金元宝/金币浮动元素 */
+        .decor-element {
+            position: absolute;
+            background: radial-gradient(circle, #ffe875 0%, #f7b731 100%);
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            z-index: 3;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .decor-1 { top: 20px; left: 30px; transform: rotate(-15deg); }
+        .decor-2 { bottom: 40px; right: 20px; transform: rotate(20deg); width: 45px; height: 30px; border-radius: 15px; } /* 模拟元宝 */
+
+        /* 红包主本体 */
+        .angpao-wrapper {
+            position: relative;
+            z-index: 2;
             cursor: pointer;
             transition: transform 0.2s;
         }
 
         .angpao-wrapper:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
+        /* 还原视频中带金结的传统红包造型 */
         .angpao-card {
-            width: 220px;
-            height: 320px;
-            background: #d32f2f;
-            border-radius: 15px;
+            width: 190px;
+            height: 280px;
+            background: linear-gradient(135deg, #d32f2f 0%, #990000 100%);
+            border-radius: 12px;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            border: 4px solid #ffd700;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 3px solid #ffd700;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        /* 金纽扣/点击开奖按钮 */
+        /* 红包上盖弧线纹理 */
+        .angpao-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 90px;
+            border-bottom: 2px solid #ffd700;
+            border-radius: 0 0 50% 50%;
+            background: rgba(0,0,0,0.08);
+        }
+
+        /* 红包底部的金色传统吉祥结花纹 */
+        .angpao-card::after {
+            content: '⚙ ⚙';
+            position: absolute;
+            bottom: 20px;
+            color: #ffd700;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            opacity: 0.8;
+        }
+
+        /* 视频中居中脉冲闪烁的圆形大金纽扣 */
         .gold-button {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ffe875 0%, #f7b731 100%);
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #ffffff 0%, #ffe875 30%, #f7b731 100%);
             border-radius: 50%;
-            border: 4px solid #ffd700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 3px solid #ffd700;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #b30000;
             font-weight: bold;
-            animation: pulse 1.5s infinite;
+            z-index: 4;
+            animation: pulse 1.4s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
 
-        /* 底部提示语 */
+        /* 底部双星号提示语 */
         .footer-tip {
             color: #ffcc00;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
         }
 
-        /* 弹窗样式 Overlay */
+        /* 弹窗遮罩样式 Overlay */
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -150,22 +236,23 @@
             padding: 20px;
         }
 
+        /* 还原视频内层金黄质感的中奖信息面板 */
         .popup-content {
-            background: #b30000;
+            background: linear-gradient(to bottom, #b30000, #800000);
             border: 4px solid #ffd700;
-            border-radius: 20px;
+            border-radius: 16px;
             width: 100%;
             max-width: 380px;
             padding: 30px 20px;
             text-align: center;
             position: relative;
             color: #fff;
-            box-shadow: 0 0 25px #ffd700;
-            animation: popIn 0.4s ease-out forwards;
+            box-shadow: 0 0 30px #ffd700;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
+            0% { transform: scale(0.6); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
@@ -173,96 +260,112 @@
             color: #ffcc00;
             font-size: 1.6rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
+        /* 奖项高亮展示区域 */
         .prize-amount {
-            font-size: 1.5rem;
-            color: #fff;
-            background: #ffcc00;
+            font-size: 1.4rem;
             color: #b30000;
-            padding: 12px 10px;
-            border-radius: 10px;
-            font-weight: bold;
+            background: linear-gradient(to bottom, #ffe875, #f7b731);
+            padding: 14px 10px;
+            border-radius: 8px;
+            font-weight: 900;
             display: inline-block;
             margin: 15px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
             width: 100%;
-            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .popup-text {
-            font-size: 1rem;
-            margin-bottom: 15px;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
             line-height: 1.5;
         }
 
         .expiry-date {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #ffb3b3;
             margin-bottom: 25px;
             font-style: italic;
+            font-weight: bold;
         }
 
-        /* 动作按钮 */
+        /* 马上领取大按钮 */
         .action-btn {
-            background: linear-gradient(to bottom, #ffe066, #f5b041);
+            background: linear-gradient(to bottom, #ffe875 0%, #f5b041 100%);
             color: #b30000;
-            border: none;
-            padding: 15px 35px;
-            font-size: 1.2rem;
+            border: 2px solid #ffd700;
+            padding: 14px 30px;
+            font-size: 1.3rem;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: background 0.2s, transform 0.1s;
-            width: 80%;
+            box-shadow: 0 6px 20px rgba(255,215,0,0.4);
+            transition: transform 0.1s;
+            width: 85%;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .action-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- 头部标题 -->
+        <!-- 顶部 LOGO 区域 -->
+        <div class="logo-area">GOD55</div>
+
+        <!-- 头部主标题区 -->
         <div class="header-title">
             <div class="main-banner">Pakej Hadiah Kejutan</div>
             <div class="sub-banner">
-                Angpao Tuah Anda<br>
-                <span class="highlight">Mengandungi Hadiah Utama!</span>
+                Angpao Tuah Anda
+                <span class="highlight">Mengandungi Hadiah Utama RM2550!</span>
             </div>
         </div>
 
-        <!-- 红包图形区域 -->
-        <div class="angpao-wrapper" id="angpaoBtn">
-            <div class="angpao-card">
-                <div class="gold-button">$</div>
+        <!-- 圆形底盘与红包核心交互区 -->
+        <div class="angpao-zone">
+            <div class="circle-bg"></div>
+            <div class="decor-element decor-1"></div>
+            <div class="decor-element decor-2"></div>
+            
+            <div class="angpao-wrapper" id="angpaoBtn">
+                <div class="angpao-card">
+                    <!-- 中心的金扣 $ 标志 -->
+                    <div class="gold-button">$</div>
+                </div>
             </div>
         </div>
 
-        <!-- 底部提示 -->
+        <!-- 底部双星号指示文案 -->
         <div class="footer-tip">
             ** Klik sekarang untuk membuka Angpao Tuah anda!
         </div>
     </div>
 
-    <!-- 弹窗组件 -->
+    <!-- 中奖弹窗组件 -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-content">
             <div class="popup-title-big">Tahniah! Selamat! 🎉</div>
             <p class="popup-text">Anda telah memenangi Hadiah Utama kami!</p>
             
-            <!-- 已更新为 WELCOME BONUS 50% -->
-            <div class="prize-amount">WELCOME BONUS 50%</div>
+            <!-- 替换完成的现金奖励字样 -->
+            <div class="prize-amount">Tahniah! Anda telah memenangi Hadiah Tunai WELCOME BONUS 50%</div>
             
             <p class="popup-text">Hubungi khidmat pelanggan sekarang untuk menuntut ganjaran anda!</p>
-            <!-- 动态日期占位符 -->
+            
+            <!-- 自动获取并转换为明天日期的动态占位符 -->
             <p class="expiry-date" id="expiryText">*Tuntutan ganjaran tamat pada...</p>
             
+            <!-- 直接链接到指定客服入口 -->
             <button class="action-btn" onclick="claimPrize()">Tuntut Sekarang</button>
         </div>
     </div>
@@ -272,38 +375,38 @@
         const popupOverlay = document.getElementById('popupOverlay');
         const expiryText = document.getElementById('expiryText');
 
-        // 动态计算“打开网页的后一天”作为截止日期
+        // 动态计算用户加载网页时的“后一天（明天）”日期
         function setExpiryDate() {
             const today = new Date();
             const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1); // 自动加 1 天
+            tomorrow.setDate(today.getDate() + 1); // 自动推进 1 天
 
             const day = tomorrow.getDate();
             const year = tomorrow.getFullYear();
             
-            // 马来语月份
+            // 全套合规马来语月份映射
             const malayMonths = [
                 "Januari", "Februari", "Mac", "April", "Mei", "Jun", 
                 "Julai", "Ogos", "September", "Oktober", "November", "Disember"
             ];
             const month = malayMonths[tomorrow.getMonth()];
 
+            // 格式化合成最终日期文本
             const formattedDate = `${day} ${month} ${year}`;
             expiryText.innerText = `*Tuntutan ganjaran tamat pada ${formattedDate}`;
         }
 
-        // 初始化日期
+        // 初始化执行日期填充
         setExpiryDate();
 
-        // 点击红包打开弹窗
+        // 绑定红包点击开启弹窗动画事件
         angpaoBtn.addEventListener('click', () => {
             popupOverlay.style.display = 'flex';
         });
 
-        // 按钮点击事件（可以绑定跳转链接）
+        // 核心跳转逻辑：直达外部指定系统
         function claimPrize() {
-            alert("Menghubungi Khidmat Pelanggan...");
-            // window.location.href = "你的客服链接";
+            window.location.href = "https://ritz99.net/RFR99F";
         }
     </script>
 </body>
