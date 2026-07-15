@@ -2,33 +2,309 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <!-- 确保在手机端完美适配屏幕宽度，不允许用户手动缩放 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pakej Kejutan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakej Hadiah Kejutan</title>
     <style>
-        /* 移除浏览器默认的间距，确保框架填满整个手机屏幕 */
-        html, body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000; /* 背景设为黑色，防止白屏闪烁 */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
-        
-        /* 撑满全屏的内嵌框架样式 */
-        iframe {
+
+        body {
+            background: #990000;
+            background-image: linear-gradient(135deg, #cc0000 0%, #660000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* 页面主体容器 */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            position: relative;
+            background: #b30000 url('https://images.unsplash.com/photo-1614036417651-efe5912149d8?q=80&w=1000') no-repeat center center/cover;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-left: 2px solid #ffd700;
+            border-right: 2px solid #ffd700;
+        }
+
+        /* 顶部标题区 */
+        .header-title {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .main-banner {
+            background: linear-gradient(to bottom, #ffe066, #f5b041);
+            color: #b30000;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 0px #fff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sub-banner {
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px dashed #ffd700;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .sub-banner span.highlight {
+            color: #ffcc00;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* 红包主区域 */
+        .angpao-wrapper {
+            margin: 40px 0;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .angpao-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .angpao-card {
+            width: 220px;
+            height: 320px;
+            background: #d32f2f;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border: 4px solid #ffd700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 金纽扣/点击开奖按钮 */
+        .gold-button {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffe875 0%, #f7b731 100%);
+            border-radius: 50%;
+            border: 4px solid #ffd700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #b30000;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* 底部提示语 */
+        .footer-tip {
+            color: #ffcc00;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* 弹窗样式 Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .popup-content {
+            background: #b30000;
+            border: 4px solid #ffd700;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 380px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            color: #fff;
+            box-shadow: 0 0 25px #ffd700;
+            animation: popIn 0.4s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .popup-title-big {
+            color: #ffcc00;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .prize-amount {
+            font-size: 1.5rem;
+            color: #fff;
+            background: #ffcc00;
+            color: #b30000;
+            padding: 12px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .popup-text {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .expiry-date {
+            font-size: 0.8rem;
+            color: #ffb3b3;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* 动作按钮 */
+        .action-btn {
+            background: linear-gradient(to bottom, #ffe066, #f5b041);
+            color: #b30000;
             border: none;
-            display: block;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: background 0.2s, transform 0.1s;
+            width: 80%;
+            text-transform: uppercase;
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <!-- 将 src 属性里的链接替换为您实际存放红包活动或跳转的真实网址 -->
-    <iframe src="https://你的真实活动网址.com/malay-version" title="Pakej Hadiah"></iframe>
+    <div class="container">
+        <!-- 头部标题 -->
+        <div class="header-title">
+            <div class="main-banner">Pakej Hadiah Kejutan</div>
+            <div class="sub-banner">
+                Angpao Tuah Anda<br>
+                <span class="highlight">Mengandungi Hadiah Utama!</span>
+            </div>
+        </div>
 
+        <!-- 红包图形区域 -->
+        <div class="angpao-wrapper" id="angpaoBtn">
+            <div class="angpao-card">
+                <div class="gold-button">$</div>
+            </div>
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="footer-tip">
+            ** Klik sekarang untuk membuka Angpao Tuah anda!
+        </div>
+    </div>
+
+    <!-- 弹窗组件 -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <div class="popup-title-big">Tahniah! Selamat! 🎉</div>
+            <p class="popup-text">Anda telah memenangi Hadiah Utama kami!</p>
+            
+            <!-- 已更新为 WELCOME BONUS 50% -->
+            <div class="prize-amount">WELCOME BONUS 50%</div>
+            
+            <p class="popup-text">Hubungi khidmat pelanggan sekarang untuk menuntut ganjaran anda!</p>
+            <!-- 动态日期占位符 -->
+            <p class="expiry-date" id="expiryText">*Tuntutan ganjaran tamat pada...</p>
+            
+            <button class="action-btn" onclick="claimPrize()">Tuntut Sekarang</button>
+        </div>
+    </div>
+
+    <script>
+        const angpaoBtn = document.getElementById('angpaoBtn');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const expiryText = document.getElementById('expiryText');
+
+        // 动态计算“打开网页的后一天”作为截止日期
+        function setExpiryDate() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1); // 自动加 1 天
+
+            const day = tomorrow.getDate();
+            const year = tomorrow.getFullYear();
+            
+            // 马来语月份
+            const malayMonths = [
+                "Januari", "Februari", "Mac", "April", "Mei", "Jun", 
+                "Julai", "Ogos", "September", "Oktober", "November", "Disember"
+            ];
+            const month = malayMonths[tomorrow.getMonth()];
+
+            const formattedDate = `${day} ${month} ${year}`;
+            expiryText.innerText = `*Tuntutan ganjaran tamat pada ${formattedDate}`;
+        }
+
+        // 初始化日期
+        setExpiryDate();
+
+        // 点击红包打开弹窗
+        angpaoBtn.addEventListener('click', () => {
+            popupOverlay.style.display = 'flex';
+        });
+
+        // 按钮点击事件（可以绑定跳转链接）
+        function claimPrize() {
+            alert("Menghubungi Khidmat Pelanggan...");
+            // window.location.href = "你的客服链接";
+        }
+    </script>
 </body>
 </html>
