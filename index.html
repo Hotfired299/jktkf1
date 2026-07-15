@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pakej Hadiah Kejutan</title>
+    <title>Official Platform Access</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
         }
 
         body {
-            background: #1a0000;
+            background: #0d0600;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,19 +21,89 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* 移动端主体容器 - 第一张图 */
+        /* 移动端主体容器 - 使用你上传的全新精美荷官图 */
         .container {
             width: 100%;
             max-width: 450px;
             height: 100vh;
             position: relative;
-            background: url('https://static.gwvkyk.com/media/28256c9e275a624a6dc76.png') no-repeat center center;
+            background: url('https://static.gwvkyk.com/media/28256c9e275a624a6dc76.png') no-repeat center center; /* 注意：请在此处替换为你上传的这幅图的有效线上链接 */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="450" height="800" viewBox="0 0 450 800"><rect width="450" height="800" fill="%231a0d00"/></svg>'); /* 兜底背景 */
             background-size: cover;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 0 0 35px rgba(0,0,0,0.9);
             overflow: hidden;
+            cursor: pointer;
         }
 
-        /* 特效：动态金币雨背景画布 */
+        /* 实际开发中，请将上面的 background-image 替换为你最新的图片链接。为了确保 100% 覆盖修改，我们用代码在上方生成修改层： */
+        
+        /* 1. 顶部黑金卷轴部分的 Logo 覆盖修改 */
+        .logo-patch-top {
+            position: absolute;
+            top: 75px;
+            left: 62px;
+            width: 120px;
+            height: 25px;
+            background: #000000; /* 遮盖原GOAT77 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-text {
+            color: #ffd700;
+            font-size: 1.1rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255,215,0,0.6);
+        }
+        .logo-subtext {
+            font-size: 0.35rem;
+            color: #ccc;
+            position: absolute;
+            bottom: -2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2. 文本修改：将 POWER UP BONUS 变去 POWER UP BONUS 50% */
+        .bonus-patch {
+            position: absolute;
+            top: 108px;
+            left: 50px;
+            width: 200px;
+            height: 30px;
+            background: #000000; /* 遮盖原文字区域 */
+            display: flex;
+            align-items: center;
+        }
+        .bonus-text-new {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #ffffff 30%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.8));
+        }
+
+        /* 3. 底部页脚的 Logo 覆盖修改 */
+        .logo-patch-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 28px;
+            width: 100px;
+            height: 35px;
+            background: #111111;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- 特效部分 --- */
+        /* 特效1：动态金币雨背景画布 */
         #coinCanvas {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -41,49 +111,24 @@
             z-index: 2;
         }
 
-        /* 核心点击区：精准覆盖图1中心金币位置 */
-        .clickable-gold-container {
+        /* 特效2：给美丽的红衣女手里的扑克牌加一个闪烁的高光特效，更显神圣好运 */
+        .card-glow {
             position: absolute;
-            top: 585px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 90px;
-            z-index: 10;
+            top: 485px;
+            left: 335px;
+            width: 45px;
+            height: 65px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 5;
+            animation: cardFlash 2s infinite ease-in-out;
         }
 
-        .clickable-gold {
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            border-radius: 50%;
-            position: relative;
-            animation: pulseEffect 1.4s infinite ease-in-out;
-        }
-
-        /* 金币四周的金色双重光圈雷达扩散特效 */
-        .clickable-gold::before, .clickable-gold::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.4);
-            z-index: -1;
-            animation: rippleEffect 2s infinite linear;
-        }
-        .clickable-gold::after {
-            animation-delay: 1s;
-        }
-
-        @keyframes pulseEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes rippleEffect {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.6); opacity: 0; }
+        @keyframes cardFlash {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); }
         }
 
         /* 点击瞬间炸开的金色碎屑粒子 */
@@ -101,29 +146,48 @@
 </head>
 <body>
 
+    <!-- 赌场风格背景音乐 -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mp3">
     </audio>
 
-    <div class="container">
+    <!-- 网页主体容器（整页可点，直接跳转） -->
+    <div class="container" id="mainLandingPage">
+        <!-- 金币雨特效 -->
         <canvas id="coinCanvas"></canvas>
-        
-        <div class="clickable-gold-container">
-            <div class="clickable-gold" id="angpaoBtn"></div>
+
+        <!-- 扑克牌好运金光特效 -->
+        <div class="card-glow"></div>
+
+        <!-- 完美的动态修改层：动态用代码把网页上的Logo换成你的 RITZ99 -->
+        <div class="logo-patch-top">
+            <div class="logo-text">RITZ99</div>
+            <div class="logo-subtext">GREATEST OF ALL TIME</div>
+        </div>
+
+        <!-- 完美的动态修改层：将文案修改为 POWER UP BONUS 50% -->
+        <div class="bonus-patch">
+            <div class="bonus-text-new">POWER UP BONUS 50%</div>
+        </div>
+
+        <!-- 完美的动态修改层：底部Logo同样换成 RITZ99 -->
+        <div class="logo-patch-bottom">
+            <div class="logo-text" style="font-size: 0.95rem;">RITZ99</div>
+            <div class="logo-subtext" style="font-size: 0.3rem; bottom: 2px;">GREATEST OF ALL TIME</div>
         </div>
     </div>
 
     <script>
-        const angpaoBtn = document.getElementById('angpaoBtn');
+        const mainLandingPage = document.getElementById('mainLandingPage');
         const bgMusic = document.getElementById('bgMusic');
         const canvas = document.getElementById('coinCanvas');
         const ctx = canvas.getContext('2d');
 
         let animationFrameId;
         const coins = [];
-        const coinTypes = ['🪙', '🧧', '✨'];
+        const coinTypes = ['🪙', '✨'];
 
-        // 初始化画布大小
+        // 初始化画布
         function initCanvas() {
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
@@ -137,9 +201,9 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = -20;
-                this.size = Math.random() * 14 + 12;
-                this.speedY = Math.random() * 2 + 1.5;
-                this.speedX = Math.random() * 1 - 0.5;
+                this.size = Math.random() * 12 + 10;
+                this.speedY = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.8 - 0.4;
                 this.type = coinTypes[Math.floor(Math.random() * coinTypes.length)];
                 this.angle = Math.random() * 360;
                 this.spinSpeed = Math.random() * 2 - 1;
@@ -151,7 +215,7 @@
             }
         }
         
-        for(let i=0; i<40; i++) coins.push(new CoinItem());
+        for(let i=0; i<30; i++) coins.push(new CoinItem());
         
         function drawScreenLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -160,39 +224,38 @@
         }
         drawScreenLoop();
 
-        // 点击爆炸粒子效果
+        // 点击爆炸特效
         function createExplosion(clickX, clickY) {
-            for (let i = 0; i < 24; i++) {
+            for (let i = 0; i < 20; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 document.body.appendChild(p);
-                const angle = Math.random() * Math.PI * 2, speed = Math.random() * 4 + 3;
+                const angle = Math.random() * Math.PI * 2, speed = Math.random() * 4 + 2;
                 let posX = clickX, posY = clickY, opacity = 1;
                 p.style.left = posX + 'px'; p.style.top = posY + 'px';
                 const pAnim = setInterval(() => {
-                    posX += Math.cos(angle) * speed; posY += Math.sin(angle) * speed + 0.5; opacity -= 0.04;
+                    posX += Math.cos(angle) * speed; posY += Math.sin(angle) * speed + 0.4; opacity -= 0.05;
                     p.style.left = posX + 'px'; p.style.top = posY + 'px'; p.style.opacity = opacity;
                     if (opacity <= 0) { clearInterval(pAnim); p.remove(); }
                 }, 16);
             }
         }
 
-        // 监听金币点击：触发特效、播放音乐并直接跳转网页
-        angpaoBtn.addEventListener('click', (e) => {
-            const rect = angpaoBtn.getBoundingClientRect();
-            const clickX = rect.left + rect.width / 2;
-            const clickY = rect.top + rect.height / 2;
+        // 全屏任意位置点击：播放爆炸特效、触发赌场音乐、直接重定向跳转
+        mainLandingPage.addEventListener('click', (e) => {
+            const clickX = e.clientX;
+            const clickY = e.clientY;
             
-            // 1. 播放点击碎屑爆炸特效
+            // 1. 触发点击特效
             createExplosion(clickX, clickY);
             
-            // 2. 播放赌场音效
-            bgMusic.play().catch(err => console.log("Audio play blocked: ", err));
+            // 2. 播放赌场音乐
+            bgMusic.play().catch(err => console.log("Audio play blocked"));
 
-            // 3. 延时 250 毫秒直接跳转去目标网页
+            // 3. 完美切入跳转链接
             setTimeout(() => {
-                window.location.href = "https://ritz99.net/RFR99F";
-            }, 250);
+                window.location.href = "https://ritz99.net/RFR99F1";
+            }, 260);
         });
     </script>
 </body>
