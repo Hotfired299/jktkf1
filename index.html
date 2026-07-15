@@ -21,7 +21,7 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* 移动端主体容器 - 精确呈现第一张图 */
+        /* 移动端主体容器 - 第一张图 */
         .container {
             width: 100%;
             max-width: 450px;
@@ -101,18 +101,13 @@
 </head>
 <body>
 
-    <!-- 预留音频组件：点击金币时激活 -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" type="audio/ogg">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mp3">
     </audio>
 
-    <!-- 网页主体 -->
     <div class="container">
-        <!-- 背景金币雨 -->
         <canvas id="coinCanvas"></canvas>
         
-        <!-- 核心交互区 -->
         <div class="clickable-gold-container">
             <div class="clickable-gold" id="angpaoBtn"></div>
         </div>
@@ -191,12 +186,12 @@
             // 1. 播放点击碎屑爆炸特效
             createExplosion(clickX, clickY);
             
-            // 2. 播放声音
+            // 2. 播放赌场音效
             bgMusic.play().catch(err => console.log("Audio play blocked: ", err));
 
-            // 3. 延时 250 毫秒（给爆炸特效一点展示时间），随后直接跳去目标网页
+            // 3. 延时 250 毫秒直接跳转去目标网页
             setTimeout(() => {
-                window.location.href = "https://ritz99.net/RFR99F1";
+                window.location.href = "https://ritz99.net/RFR99F";
             }, 250);
         });
     </script>
