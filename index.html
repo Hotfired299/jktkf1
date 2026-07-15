@@ -43,11 +43,11 @@
       aspect-ratio: 9 / 16;
       max-width: 576px; 
 
-      /* 自动加载您最新的精美背景图 */
+      /* 保留您最新的精美背景图 */
       background-image: url('https://static.gwvkyk.com/media/4df69b51475a6c57f5f4.png');
       background-size: cover;
       background-repeat: no-repeat;
-      /* 核心微调：让图片向左偏移 20%，完美把女孩子让到左边，右边留给按钮 */
+      /* 核心微调：让图片侧重左边 20%，完美把女孩子让到左侧，右下角纯净留给按钮 */
       background-position: 20% center; 
       box-shadow: 0 0 30px rgba(0,0,0,0.9);
       overflow: hidden;
@@ -94,13 +94,13 @@
     }
 
     /* =================================================
-       4. 右下角按钮区域（完全移除文案，精致且绝对不挡内容）
+       4. 右下角独立按钮区域（完全去掉干扰文案，绝不挡内容）
        ================================================= */
     .buttons-wrapper {
       position: absolute;
-      bottom: 22%;       /* 精准定位在底部 50% 横幅 Banner 的正上方 */
-      right: 5%;         /* 完美靠右对齐，绝不阻挡左边的女孩子 */
-      width: 48%;        /* 宽度优化至 48%，小巧精致且点击舒适 */
+      bottom: 22%;       /* 精准对齐在底部横幅 Banner 的正上方 */
+      right: 5%;         /* 完美靠右，给左侧画面留出充足空间 */
+      width: 48%;        /* 宽度优化，精巧且极其方便大拇指点击 */
       display: flex;
       flex-direction: column;
       gap: 12px;         
@@ -146,7 +146,7 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* 炫酷流光扫光 */
+    /* 炫酷流光扫光效果 */
     .custom-btn::after {
       content: '';
       position: absolute;
@@ -165,7 +165,7 @@
       font-size: 16px;
     }
 
-    /* 动画控制 */
+    /* 动画配置 */
     @keyframes subtle-pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.04); }
@@ -193,13 +193,17 @@
   <div class="stage">
     <div class="container">
       
+      <!-- 满屏掉落金币层 -->
       <div class="coin-container" id="coin-layer"></div>
 
+      <!-- 右下角悬浮按钮组（不带任何干扰文案，纯净美观） -->
       <div class="buttons-wrapper">
+        <!-- WEBSITE 按钮 -->
         <a id="website-btn" href="https://ritz99.net/RFR99F1" class="custom-btn btn-website">
           <span class="btn-icon">🌐</span> WEBSITE
         </a>
 
+        <!-- TELEGRAM BOT 按钮 -->
         <a href="https://t.me/Ritz99my_Bot?start=adlinkFBB1" target="_blank" rel="noopener" class="custom-btn btn-telegram">
           <span class="btn-icon">✈</span> TELEGRAM BOT
         </a>
