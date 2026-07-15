@@ -2,9 +2,8 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <!-- 关键：viewport 设置，适配移动端缩放与全面屏安全区 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>RITZ99 - 官方直通车</title>
+  <title>RITZ99</title>
 
   <style>
     /* =================================================
@@ -15,16 +14,15 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background: #000000; /* 背景色防止加载闪烁 */
+      background: #000000;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      overflow: hidden; /* 防止页面整体滚动 */
-      overscroll-behavior: none; /* 禁用 iOS 橡皮筋回弹 */
+      overflow: hidden;
+      overscroll-behavior: none;
     }
 
     .stage {
       width: 100%;
       height: 100vh;
-      /* 适配现代手机浏览器高度变化 */
       height: 100svh;
       display: flex;
       justify-content: center;
@@ -34,7 +32,7 @@
     }
 
     /* =================================================
-       2. 主容器（严格 9:16 手机比例，居中显示）
+       2. 主容器（严格 9:16 手机完美比例）
        ================================================= */
     .container {
       position: relative;
@@ -42,11 +40,9 @@
       height: 100vh;
       height: 100svh;
       height: 100dvh;
-      /* 强制保持 9:16 比例，对于超宽屏设备两侧留黑 */
       aspect-ratio: 9 / 16;
       max-width: 576px; 
 
-      /* 背景图：加载您提供的图片链接 */
       background-image: url('https://static.gwvkyk.com/media/f52710cb375a6d83004aa.png');
       background-size: cover;
       background-repeat: no-repeat;
@@ -56,7 +52,7 @@
     }
 
     /* =================================================
-       3. 独家动态金币掉落效果 (满屏版)
+       3. 满屏金币掉落特效
        ================================================= */
     .coin-container {
       position: absolute;
@@ -64,27 +60,21 @@
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none; /* 穿透点击事件 */
-      z-index: 10; /* 位于背景之上，按钮之下 */
-      /* 添加轻微的透视感，让金币旋转更立体 */
+      pointer-events: none; 
+      z-index: 10;
       perspective: 1000px; 
     }
 
     .coin {
       position: absolute;
-      /* 金币径向渐变，模拟金属质感 */
       background: radial-gradient(circle at 30% 30%, #ffe875 0%, #f7b113 70%, #b87b00 100%);
       border-radius: 50%;
-      box-shadow: 
-        inset -2px -2px 4px rgba(0,0,0,0.4), 
-        0 2px 5px rgba(0,0,0,0.3);
+      box-shadow: inset -1px -1px 3px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
       border: 1px solid #ffd859;
-      /* 初始状态隐藏在屏幕上方 */
       top: -60px; 
       opacity: 0;
     }
 
-    /* 金币内部纹理 */
     .coin::after {
       content: '';
       position: absolute;
@@ -93,58 +83,48 @@
       border-radius: 50%;
     }
 
-    /* 核心掉落动画 Keyframes (增加横向摆动实现满屏覆盖) */
     @keyframes fall-full {
       0% {
         top: -60px;
         transform: translate(0, 0) rotateX(0deg) rotateY(0deg);
         opacity: 1;
       }
-      25% {
-        transform: translate(15px, 0) rotateX(180deg) rotateY(90deg);
-      }
-      50% {
-        transform: translate(-15px, 0) rotateX(360deg) rotateY(180deg);
-      }
-      75% {
-        transform: translate(10px, 0) rotateX(540deg) rotateY(270deg);
-      }
+      25% { transform: translate(15px, 0) rotateX(180deg) rotateY(90deg); }
+      50% { transform: translate(-15px, 0) rotateX(360deg) rotateY(180deg); }
+      75% { transform: translate(10px, 0) rotateX(540deg) rotateY(270deg); }
       100% {
-        top: 105%; /* 掉出屏幕下方 */
+        top: 105%; 
         transform: translate(-10px, 0) rotateX(720deg) rotateY(360deg);
-        opacity: 0; /* 到底部淡出 */
+        opacity: 0; 
       }
     }
 
     /* =================================================
-       4. 浮动按钮区域 (位于 Banner 上方)
+       4. 优化后的按钮区域：放在右下角，完全不挡内容
        ================================================= */
     .buttons-wrapper {
       position: absolute;
-      /* 关键定位：位于底部 Banner (目测约占高 18%) 上方一点的位置 */
-      bottom: 22%; 
-      left: 0;
-      width: 100%;
+      bottom: 23%;       /* 位于底部横幅 Banner 的上方 */
+      right: 6%;         /* 靠右对齐，完美避开左侧人和中间的文字 */
+      width: 50%;        /* 宽度适中，既好点又精致 */
       display: flex;
       flex-direction: column;
-      align-items: center; /* 整体居中 */
-      gap: 15px; /* 按钮间距 */
-      z-index: 20; /* 确保在金币层之上 */
+      gap: 12px;         
+      z-index: 20;       
     }
 
-    /* 按钮基础样式 (纯 CSS，高清无损) */
+    /* 纯 CSS 高清流光按钮 */
     .custom-btn {
-      width: 78%; /* 按钮宽度占容器的 78% */
-      max-width: 300px; /* 限制最大宽度，在大屏手机上不至于太宽 */
-      padding: 16px 10px;
-      font-size: 18px;
+      width: 100%;
+      padding: 12px 6px;
+      font-size: 15px;   /* 微调字体大小，精致耐看 */
       font-weight: 800;
       text-align: center;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: #ffffff;
       border: none;
-      border-radius: 50px; /* 超圆角 */
+      border-radius: 30px; 
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -152,31 +132,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-      /* 初始呼吸动画 */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       animation: subtle-pulse 2s infinite ease-in-out;
-      /* 移动端点击高亮优化 */
       -webkit-tap-highlight-color: transparent;
-      /* 阻止触摸滑动页面 */
       touch-action: none;
     }
 
-    /* 按钮 1：WEBSITE 豪华绿金 */
+    /* WEBSITE 按钮颜色：奢华绿金 */
     .btn-website {
-      background: linear-gradient(135deg, #00E676 0%, #00C853 50%, #0091EA 100%);
-      background: linear-gradient(135deg, #00b050 0%, #008000 100%); /* 更贴合Logo的绿色 */
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, #00b050 0%, #007000 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* TELEGRAM BOT 按钮颜色：官方高级蓝 */
+    .btn-telegram {
+      background: linear-gradient(135deg, #29B6F6 0%, #039BE5 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       text-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* 按钮 2：TELEGRAM BOT 官方蓝 */
-    .btn-telegram {
-      background: linear-gradient(135deg, #29B6F6 0%, #039BE5 100%);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    /* 按钮扫光特效 */
+    /* 扫光动效 */
     .custom-btn::after {
       content: '';
       position: absolute;
@@ -184,39 +160,36 @@
       left: -60%;
       width: 20%;
       height: 200%;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.25);
       transform: rotate(35deg);
-      filter: blur(5px);
+      filter: blur(4px);
       animation: btn-shine 3s infinite;
     }
 
-    /* 按钮图标 */
     .btn-icon {
-      margin-right: 8px;
-      font-size: 20px;
+      margin-right: 6px;
+      font-size: 16px;
     }
 
-    /* 动画定义 */
+    /* 呼吸与扫光动画定义 */
     @keyframes subtle-pulse {
-      0% { transform: scale(1); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
-      50% { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-      100% { transform: scale(1); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
     }
 
     @keyframes btn-shine {
       0% { left: -60%; }
-      15% { left: 120%; }
+      18% { left: 120%; }
       100% { left: 120%; }
     }
 
     /* =================================================
-       5. 移动端全面屏安全区适配 (iPhone 刘海屏等)
+       5. 移动端全面屏（刘海屏）安全区自适应适配
        ================================================= */
-    /* 如果是 iPhone 且有安全区底部 */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       .buttons-wrapper {
-        /* 在原基础上增加底部安全距离，防止误触 Home 条 */
-        bottom: calc(22% + env(safe-area-inset-bottom));
+        bottom: calc(23% + env(safe-area-inset-bottom));
       }
     }
   </style>
@@ -226,12 +199,12 @@
   <div class="stage">
     <div class="container">
       
-      <!-- 动态金币掉落层 (满屏覆盖) -->
+      <!-- 满屏金币层 -->
       <div class="coin-container" id="coin-layer"></div>
 
-      <!-- 按钮包装器 (位于底部 Banner 上方) -->
+      <!-- 右下角悬浮按钮群 (避开所有核心文案与图片元素) -->
       <div class="buttons-wrapper">
-        <!-- WEBSITE 主站按钮 -->
+        <!-- WEBSITE 按钮 -->
         <a id="website-btn" href="https://ritz99.net/RFR99F1" class="custom-btn btn-website">
           <span class="btn-icon">🌐</span> WEBSITE
         </a>
@@ -246,11 +219,7 @@
   </div>
 
   <script>
-    /* =================================================
-       JavaScript 逻辑代码
-       ================================================= */
-
-    // 1. 动态传递代理参数 (aff) 到 WEBSITE 链接
+    // 1. 动态传递代理参数 (aff)
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       const aff = urlParams.get('aff');
@@ -258,60 +227,45 @@
       const originalBaseURL = "https://ritz99.net/RFR99F1"; 
 
       if (aff) {
-        // 检查原有链接是否带参数，智能拼接
         const separator = originalBaseURL.includes('?') ? '&' : '?';
         websiteBtn.href = `${originalBaseURL}${separator}aff=${aff}`;
       }
     })();
 
-    // 2. 高性能满屏金币掉落生成脚本
+    // 2. 满屏金币掉落逻辑
     const coinLayer = document.getElementById('coin-layer');
-    const container = document.querySelector('.container');
-
     function createCoin() {
       if (!coinLayer) return;
       
       const coin = document.createElement('div');
       coin.classList.add('coin');
       
-      // 随机大小 (12px - 24px)
-      const size = Math.random() * 12 + 12;
+      const size = Math.random() * 10 + 12; // 金币尺寸微调 (12px - 22px)
       coin.style.width = `${size}px`;
       coin.style.height = `${size}px`;
-      
-      // 随机横向起始位置 (0% - 100%)，确保满屏
       coin.style.left = `${Math.random() * 100}%`;
       
-      // 随机动画时长 (使金币掉落速度有快有慢 3s - 6s)
-      const duration = Math.random() * 3 + 3;
-      // 随机延迟，避免一开始同时掉落
-      const delay = Math.random() * 5;
+      const duration = Math.random() * 2.5 + 2.5; // 下落速度 2.5s - 5s
+      const delay = Math.random() * 4;
       
       coin.style.animation = `fall-full ${duration}s linear ${delay}s infinite`;
-      
       coinLayer.appendChild(coin);
       
-      // 性能优化：动画结束后移除 DOM 节点，防止内存泄漏
-      // 动画总时长 = duration + delay
       setTimeout(() => {
         coin.remove();
-      }, (duration + delay) * 1000 + 500); // 多加500ms确保彻底结束
+      }, (duration + delay) * 1000 + 500);
     }
 
-    // 初始化生成金币数量 (密集一点，营造满屏感)
-    const initCoinCount = window.innerWidth < 500 ? 40 : 60;
+    // 满屏初始化
+    const initCoinCount = window.innerWidth < 500 ? 35 : 55;
     for (let i = 0; i < initCoinCount; i++) {
       createCoin();
     }
+    setInterval(createCoin, 350); 
 
-    // 持续生成补充金币 (频率降低，保持画面金币数量)
-    setInterval(createCoin, 300); 
-
-    // 阻止 iOS 页面整体滚动，只允许局部查看(虽然设置了overflow:hidden，加一层保险)
+    // 阻止 iOS 全屏橡皮筋滚动
     document.addEventListener('touchmove', function(e) {
-      if (e.target.closest('.container')) {
-        return; // 允许容器内可能的滚动（如有需要）
-      }
+      if (e.target.closest('.container')) return;
       e.preventDefault();
     }, { passive: false });
   </script>
