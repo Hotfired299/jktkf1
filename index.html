@@ -12,16 +12,16 @@
         }
 
         body {
-            background: #3a0000;
+            background: #1a0000;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* 移动端主体容器 - 完美适配第一张图 */
+        /* 移动端主体容器 */
         .container {
             width: 100%;
             max-width: 450px;
@@ -33,25 +33,72 @@
             overflow: hidden;
         }
 
-        /* 核心交互区：定位在第一张图红包的中心金币位置 */
-        .clickable-gold {
+        /* --- 特效1：动态金币雨背景画布 --- */
+        #coinCanvas {
             position: absolute;
-            top: 585px; /* 根据图1金币位置精准定位 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* --- 特效2：中心金币雷达光圈扩散特效 --- */
+        .clickable-gold-container {
+            position: absolute;
+            top: 585px; /* 精准对应图1金币位置 */
             left: 50%;
             transform: translateX(-50%);
             width: 90px;
             height: 90px;
-            cursor: pointer;
             z-index: 10;
+        }
+
+        .clickable-gold {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
             border-radius: 50%;
-            /* 呼吸放大缩小特效，吸引用户点击 */
-            animation: pulseEffect 1.6s infinite ease-in-out;
+            position: relative;
+            animation: pulseEffect 1.4s infinite ease-in-out;
+        }
+
+        /* 双层扩散光圈 */
+        .clickable-gold::before, .clickable-gold::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.4);
+            z-index: -1;
+            animation: rippleEffect 2s infinite linear;
+        }
+        .clickable-gold::after {
+            animation-delay: 1s;
         }
 
         @keyframes pulseEffect {
-            0% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
-            100% { transform: translateX(-50%) scale(1); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rippleEffect {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* --- 特效3：点击爆炸粒子样式 --- */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #fff, #ffd700);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: 0 0 10px #ffd700;
         }
 
         /* 弹窗遮罩层 */
@@ -61,14 +108,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
-        /* 弹窗内容容器 - 完美适配第二张图 */
+        /* --- 特效4：弹窗佛光微闪与入场特效 --- */
         .popup-content {
             width: 100%;
             max-width: 450px;
@@ -76,33 +123,34 @@
             position: relative;
             background: url('https://static.gwvkyk.com/media/cbc445ae275a60b8c00e7.png') no-repeat center center;
             background-size: cover;
-            animation: popIn 0.3s ease-out forwards;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+            box-shadow: 0 0 50px rgba(255, 51, 51, 0.3);
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0.85); opacity: 0; filter: brightness(1.8); }
+            100% { transform: scale(1); opacity: 1; filter: brightness(1); }
         }
 
-        /* 动态日期容器：定位在图2中原日期文本的上方 */
+        /* 动态日期容器 */
         .dynamic-date-box {
             position: absolute;
-            top: 778px; /* 根据图2原本日期位置覆盖 */
+            top: 778px;
             left: 0;
             width: 100%;
             text-align: center;
-            color: #ffcccc;
+            color: #ffe6e6;
             font-size: 0.9rem;
             font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255,0,0,0.5);
             z-index: 15;
             letter-spacing: 0.5px;
         }
 
-        /* 按钮点击热区：覆盖在图2“Tuntut Sekarang”红色按钮上方 */
+        /* 按钮点击热区（覆盖在“Tuntut Sekarang”上方） */
         .transparent-btn {
             position: absolute;
-            bottom: 115px; /* 精准对齐图2按钮位置 */
+            bottom: 115px;
             left: 50%;
             transform: translateX(-50%);
             width: 65%;
@@ -117,22 +165,26 @@
 </head>
 <body>
 
-    <!-- 首页容器（第一张图） -->
+    <!-- 首页容器 -->
     <div class="container">
-        <!-- 覆盖在金币上方的透明动态点击区域 -->
-        <div class="clickable-gold" id="angpaoBtn"></div>
+        <!-- 特效画布：飘落金币雨 -->
+        <canvas id="coinCanvas"></canvas>
+
+        <!-- 带有双重扩散光圈的点击核心区 -->
+        <div class="clickable-gold-container">
+            <div class="clickable-gold" id="angpaoBtn"></div>
+        </div>
     </div>
 
-    <!-- 弹窗遮罩层与第二张图 -->
+    <!-- 弹窗遮罩层 -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-content">
-            
-            <!-- 动态日期：自动计算并完美覆盖原图上的静态日期 -->
+            <!-- 动态截止日期 -->
             <div class="dynamic-date-box" id="expiryText">
                 *Tuntutan ganjaran tamat pada...
             </div>
             
-            <!-- 覆盖在“Tuntut Sekarang”字样上面的透明跳转按钮 -->
+            <!-- 透明重定向跳转热区 -->
             <button class="transparent-btn" onclick="claimPrize()"></button>
         </div>
     </div>
@@ -141,37 +193,132 @@
         const angpaoBtn = document.getElementById('angpaoBtn');
         const popupOverlay = document.getElementById('popupOverlay');
         const expiryText = document.getElementById('expiryText');
+        const canvas = document.getElementById('coinCanvas');
+        const ctx = canvas.getContext('2d');
 
-        // 智能动态日期计算：获取用户打开网页的明天日期
+        // --- 金币雨后台粒子系统逻辑 ---
+        let animationFrameId;
+        const coins = [];
+        const coinTypes = ['🪙', '🧧', '✨']; // 金币、红包、闪光微粒
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class CoinItem {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height; // 初始随机散落
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 14 + 12;
+                this.speedY = Math.random() * 2 + 1.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.type = coinTypes[Math.floor(Math.random() * coinTypes.length)];
+                this.angle = Math.random() * 360;
+                this.spinSpeed = Math.random() * 2 - 1;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.angle += this.spinSpeed;
+                if (this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.type, -this.size/2, this.size/2);
+                ctx.restore();
+            }
+        }
+
+        // 初始化50个背景飘落元素
+        for(let i=0; i<45; i++) {
+            coins.push(new CoinItem());
+        }
+
+        function drawScreenLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            coins.forEach(coin => {
+                coin.update();
+                coin.draw();
+            });
+            animationFrameId = requestAnimationFrame(drawScreenLoop);
+        }
+        drawScreenLoop();
+
+        // --- 特效3：点击粒子爆炸函数 ---
+        function createExplosion(e) {
+            const rect = angpaoBtn.getBoundingClientRect();
+            // 获取点击的中心点坐标
+            const clickX = rect.left + rect.width / 2;
+            const clickY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 24; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                document.body.appendChild(p);
+
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 3;
+                let posX = clickX;
+                let posY = clickY;
+                let opacity = 1;
+
+                p.style.left = posX + 'px';
+                p.style.top = posY + 'px';
+
+                const pAnim = setInterval(() => {
+                    posX += Math.cos(angle) * speed;
+                    posY += Math.sin(angle) * speed + 0.5; // 带有一点重力下坠
+                    opacity -= 0.04;
+
+                    p.style.left = posX + 'px';
+                    p.style.top = posY + 'px';
+                    p.style.opacity = opacity;
+
+                    if (opacity <= 0) {
+                        clearInterval(pAnim);
+                        p.remove();
+                    }
+                }, 16);
+            }
+        }
+
+        // --- 日期处理与交互跳转逻辑 ---
         function setExpiryDate() {
             const today = new Date();
             const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1); // 自动进 1 天
+            tomorrow.setDate(today.getDate() + 1);
 
             const day = tomorrow.getDate();
             const year = tomorrow.getFullYear();
             
-            // 马来语标准月份
             const malayMonths = [
                 "Januari", "Februari", "Mac", "April", "Mei", "Jun", 
                 "Julai", "Ogos", "September", "Oktober", "November", "Disember"
             ];
             const month = malayMonths[tomorrow.getMonth()];
-
-            // 格式化输出为最终与原图风格一致的文案
-            const formattedDate = `${day} ${month} ${year}`;
-            expiryText.innerText = `*Tuntutan ganjaran tamat pada ${formattedDate}`;
+            expiryText.innerText = `*Tuntutan ganjaran tamat pada ${day} ${month} ${year}`;
         }
-
-        // 初始化日期填充
         setExpiryDate();
 
-        // 点击第一页金币打开第二页弹窗
-        angpaoBtn.addEventListener('click', () => {
-            popupOverlay.style.display = 'flex';
+        // 点击事件：触发爆炸特效并延时弹出中奖界面
+        angpaoBtn.addEventListener('click', (e) => {
+            createExplosion(e);
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId); // 停止第一页的金币雨，节省性能
+                popupOverlay.style.display = 'flex';
+            }, 300);
         });
 
-        // 点击第二页按钮跳转至你的目标客服系统
         function claimPrize() {
             window.location.href = "https://ritz99.net/RFR99F";
         }
