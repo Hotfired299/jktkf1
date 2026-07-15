@@ -21,7 +21,7 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* 移动端主体容器 */
+        /* 移动端主体容器 - 精确呈现第一张图 */
         .container {
             width: 100%;
             max-width: 450px;
@@ -41,7 +41,7 @@
             z-index: 2;
         }
 
-        /* 第一页中心金币雷达光圈 */
+        /* 核心点击区：精准覆盖图1中心金币位置 */
         .clickable-gold-container {
             position: absolute;
             top: 585px; 
@@ -61,6 +61,7 @@
             animation: pulseEffect 1.4s infinite ease-in-out;
         }
 
+        /* 金币四周的金色双重光圈雷达扩散特效 */
         .clickable-gold::before, .clickable-gold::after {
             content: '';
             position: absolute;
@@ -85,7 +86,7 @@
             100% { transform: scale(1.6); opacity: 0; }
         }
 
-        /* 点击爆炸粒子 */
+        /* 点击瞬间炸开的金色碎屑粒子 */
         .particle {
             position: absolute;
             width: 8px;
@@ -96,145 +97,46 @@
             z-index: 999;
             box-shadow: 0 0 10px #ffd700;
         }
-
-        /* 弹窗遮罩层 */
-        .popup-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        /* 第二页中奖彩带Canvas画布 */
-        #confettiCanvas {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1005;
-        }
-
-        /* 第二页弹窗入场与滤镜特效 */
-        .popup-content {
-            width: 100%;
-            max-width: 450px;
-            height: 100vh;
-            position: relative;
-            background: url('https://static.gwvkyk.com/media/cbc445ae275a60b8c00e7.png') no-repeat center center;
-            background-size: cover;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
-            box-shadow: 0 0 50px rgba(255, 51, 51, 0.3);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.85); opacity: 0; filter: brightness(1.8); }
-            100% { transform: scale(1); opacity: 1; filter: brightness(1); }
-        }
-
-        /* 动态日期容器 */
-        .dynamic-date-box {
-            position: absolute;
-            top: 778px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: #ffe6e6;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255,0,0,0.5);
-            z-index: 15;
-            letter-spacing: 0.5px;
-        }
-
-        /* 第二页透明按钮点击热区 + 新增金色呼吸闪烁诱导特效 */
-        .transparent-btn {
-            position: absolute;
-            bottom: 115px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65%;
-            height: 55px;
-            background: rgba(255, 215, 0, 0.05);
-            border: none;
-            cursor: pointer;
-            z-index: 1020;
-            border-radius: 30px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0);
-            animation: btnGlow 1.2s infinite ease-in-out;
-        }
-
-        @keyframes btnGlow {
-            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); background: rgba(255, 215, 0, 0.02); }
-            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); background: rgba(255, 215, 0, 0.15); }
-            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); background: rgba(255, 215, 0, 0.02); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- 预留音频组件：这里使用的是一段欢快的经典新年/财神中奖纯音乐（可替换src链接） -->
+    <!-- 预留音频组件：点击金币时激活 -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" type="audio/ogg">
-        <!-- 备用音频库源，确保各手机端能顺利播放喜庆音乐 -->
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
     </audio>
 
-    <!-- 首页 container -->
+    <!-- 网页主体 -->
     <div class="container">
+        <!-- 背景金币雨 -->
         <canvas id="coinCanvas"></canvas>
+        
+        <!-- 核心交互区 -->
         <div class="clickable-gold-container">
             <div class="clickable-gold" id="angpaoBtn"></div>
         </div>
     </div>
 
-    <!-- 弹窗遮罩层 -->
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-content">
-            <!-- 第二页专属特效画布：喷洒礼花彩带 -->
-            <canvas id="confettiCanvas"></canvas>
-
-            <!-- 动态截止日期 -->
-            <div class="dynamic-date-box" id="expiryText">
-                *Tuntutan ganjaran tamat pada...
-            </div>
-            
-            <!-- 透明按钮跳转热区 -->
-            <button class="transparent-btn" onclick="claimPrize()"></button>
-        </div>
-    </div>
-
     <script>
         const angpaoBtn = document.getElementById('angpaoBtn');
-        const popupOverlay = document.getElementById('popupOverlay');
-        const expiryText = document.getElementById('expiryText');
         const bgMusic = document.getElementById('bgMusic');
-        
-        // 第一页画布逻辑
         const canvas = document.getElementById('coinCanvas');
         const ctx = canvas.getContext('2d');
-        // 第二页画布逻辑
-        const confettiCanvas = document.getElementById('confettiCanvas');
-        const cCtx = confettiCanvas.getContext('2d');
 
         let animationFrameId;
-        let confettiFrameId;
         const coins = [];
-        const confettis = [];
         const coinTypes = ['🪙', '🧧', '✨'];
-        const confettiColors = ['#ffd700', '#ff3333', '#ff66b2', '#33ccff', '#ffff33', '#ffffff'];
 
-        function initCanvases() {
+        // 初始化画布大小
+        function initCanvas() {
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', initCanvases);
-        initCanvases();
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
 
-        // --- 第一页金币飘落类 ---
+        // 金币飘落逻辑
         class CoinItem {
             constructor() { this.reset(); this.y = Math.random() * canvas.height; }
             reset() {
@@ -253,7 +155,9 @@
                 ctx.font = `${this.size}px serif`; ctx.fillText(this.type, -this.size/2, this.size/2); ctx.restore();
             }
         }
+        
         for(let i=0; i<40; i++) coins.push(new CoinItem());
+        
         function drawScreenLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             coins.forEach(coin => { coin.update(); coin.draw(); });
@@ -261,56 +165,7 @@
         }
         drawScreenLoop();
 
-        // --- 第二页彩带粒子类 ---
-        class ConfettiItem {
-            constructor() {
-                this.x = confettiCanvas.width / 2 + (Math.random() * 60 - 30);
-                this.y = confettiCanvas.height + 20;
-                this.size = Math.random() * 6 + 6;
-                // 向上喷射的角度和初速度
-                this.speedY = -(Math.random() * 8 + 10);
-                this.speedX = Math.random() * 8 - 4;
-                this.gravity = 0.25;
-                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = Math.random() * 4 - 2;
-                this.opacity = 1;
-            }
-            update() {
-                this.speedY += this.gravity;
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.rotation += this.rotationSpeed;
-                if(this.speedY > 0) this.opacity -= 0.01;
-            }
-            draw() {
-                cCtx.save();
-                cCtx.translate(this.x, this.y);
-                cCtx.rotate(this.rotation * Math.PI / 180);
-                cCtx.globalAlpha = this.opacity;
-                cCtx.fillStyle = this.color;
-                cCtx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
-                cCtx.restore();
-            }
-        }
-
-        function drawConfettiLoop() {
-            cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            // 持续补充新抛出的彩带
-            if(confettis.length < 100) {
-                for(let i=0; i<3; i++) confettis.push(new ConfettiItem());
-            }
-            for(let i = confettis.length - 1; i >= 0; i--) {
-                confettis[i].update();
-                confettis[i].draw();
-                if(confettis[i].opacity <= 0 || confettis[i].y > confettiCanvas.height) {
-                    confettis.splice(i, 1);
-                }
-            }
-            confettiFrameId = requestAnimationFrame(drawConfettiLoop);
-        }
-
-        // --- 点击爆炸粒子 ---
+        // 点击爆炸粒子效果
         function createExplosion(clickX, clickY) {
             for (let i = 0; i < 24; i++) {
                 const p = document.createElement('div');
@@ -327,36 +182,23 @@
             }
         }
 
-        // --- 日期逻辑 ---
-        function setExpiryDate() {
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1);
-            const malayMonths = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
-            expiryText.innerText = `*Tuntutan ganjaran tamat pada ${tomorrow.getDate()} ${malayMonths[tomorrow.getMonth()]} ${tomorrow.getFullYear()}`;
-        }
-        setExpiryDate();
-
-        // 点击金币事件
+        // 监听金币点击：触发特效、播放音乐并直接跳转网页
         angpaoBtn.addEventListener('click', (e) => {
             const rect = angpaoBtn.getBoundingClientRect();
-            createExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            const clickX = rect.left + rect.width / 2;
+            const clickY = rect.top + rect.height / 2;
             
-            // 💡 核心：用户点击的瞬间激活并播放音乐
-            bgMusic.play().catch(err => console.log("音乐播放受限: ", err));
+            // 1. 播放点击碎屑爆炸特效
+            createExplosion(clickX, clickY);
+            
+            // 2. 播放声音
+            bgMusic.play().catch(err => console.log("Audio play blocked: ", err));
 
+            // 3. 延时 250 毫秒（给爆炸特效一点展示时间），随后直接跳去目标网页
             setTimeout(() => {
-                cancelAnimationFrame(animationFrameId); // 关掉第一页特效
-                popupOverlay.style.display = 'flex';
-                confettiCanvas.width = window.innerWidth;
-                confettiCanvas.height = window.innerHeight;
-                drawConfettiLoop(); // 开启第二页彩带狂欢特效
-            }, 300);
+                window.location.href = "https://ritz99.net/RFR99F1";
+            }, 250);
         });
-
-        function claimPrize() {
-            window.location.href = "https://ritz99.net/RFR99F";
-        }
     </script>
 </body>
 </html>
