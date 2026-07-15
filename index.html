@@ -32,7 +32,7 @@
     }
 
     /* =================================================
-       2. 主容器（严格 9:16 手机完美比例）
+       2. 主容器（严格 9:16 手机完美比例适配）
        ================================================= */
     .container {
       position: relative;
@@ -43,18 +43,18 @@
       aspect-ratio: 9 / 16;
       max-width: 576px; 
 
-      /* 已替换为您提供的最新图片 URL */
-      background-image: url('https://static.gwvkyk.com/media/4df69b51475a63c57f5f4.png');
+      /* 自动加载您最新的精美背景图 */
+      background-image: url('https://static.gwvkyk.com/media/4df69b51475a6c57f5f4.png');
       background-size: cover;
       background-repeat: no-repeat;
-      /* 背景图稍微往左偏（28%），把女孩子推向左侧，腾出右侧清晰的按钮与文字空间 */
-      background-position: 28% center; 
+      /* 核心微调：让图片向左偏移 20%，完美把女孩子让到左边，右边留给按钮 */
+      background-position: 20% center; 
       box-shadow: 0 0 30px rgba(0,0,0,0.9);
       overflow: hidden;
     }
 
     /* =================================================
-       3. 满屏金币掉落特效
+       3. 豪华满屏金币掉落层
        ================================================= */
     .coin-container {
       position: absolute;
@@ -94,52 +94,23 @@
     }
 
     /* =================================================
-       4. 右侧悬浮面板（包含重新排版的文字 + 按钮）
+       4. 右下角按钮区域（完全移除文案，精致且绝对不挡内容）
        ================================================= */
-    .right-panel {
+    .buttons-wrapper {
       position: absolute;
-      bottom: 22%;       /* 位于底部 Banner 横幅的上方 */
-      right: 5%;         /* 整体靠右，完美避开左侧的女孩子 */
-      width: 55%;        /* 控制面板宽度，适合右侧黄金点击区 */
+      bottom: 22%;       /* 精准定位在底部 50% 横幅 Banner 的正上方 */
+      right: 5%;         /* 完美靠右对齐，绝不阻挡左边的女孩子 */
+      width: 48%;        /* 宽度优化至 48%，小巧精致且点击舒适 */
       display: flex;
       flex-direction: column;
-      align-items: center;
+      gap: 12px;         
       z-index: 20;       
     }
 
-    /* 纯 CSS 浮雕金色重写两行核心文案 */
-    .panel-title {
-      font-size: 22px;
-      font-weight: 900;
-      color: #f7b113;
-      text-transform: uppercase;
-      text-align: center;
-      line-height: 1.2;
-      margin-bottom: 2px;
-      letter-spacing: 0.5px;
-      /* 炫酷的金色发光立体字效果 */
-      text-shadow: 0 2px 4px rgba(0,0,0,1), 0 0 10px rgba(247, 177, 19, 0.5);
-    }
-    .panel-title span {
-      display: block;
-      color: #ffffff; 
-    }
-
-    .panel-subtitle {
-      font-size: 11px;
-      font-weight: 600;
-      color: #e0e0e0;
-      text-align: center;
-      margin-bottom: 15px; 
-      letter-spacing: 0.2px;
-      text-shadow: 0 1px 3px rgba(0,0,0,1);
-      white-space: nowrap;
-    }
-
-    /* 按钮公共样式 */
+    /* 纯 CSS 高清流光呼吸按钮 */
     .custom-btn {
       width: 100%;
-      padding: 12px 6px;
+      padding: 13px 6px;
       font-size: 15px;   
       font-weight: 800;
       text-align: center;
@@ -155,7 +126,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 10px; 
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
       animation: subtle-pulse 2s infinite ease-in-out;
       -webkit-tap-highlight-color: transparent;
@@ -169,14 +139,14 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
-    /* TELEGRAM BOT 按钮：官方蓝 */
+    /* TELEGRAM BOT 按钮：官方高级蓝 */
     .btn-telegram {
       background: linear-gradient(135deg, #29B6F6 0%, #039BE5 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.3);
       text-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* 流光扫光动效 */
+    /* 炫酷流光扫光 */
     .custom-btn::after {
       content: '';
       position: absolute;
@@ -195,7 +165,7 @@
       font-size: 16px;
     }
 
-    /* 动画 */
+    /* 动画控制 */
     @keyframes subtle-pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.04); }
@@ -212,7 +182,7 @@
        5. 移动端全面屏安全区自适应适配
        ================================================= */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .right-panel {
+      .buttons-wrapper {
         bottom: calc(22% + env(safe-area-inset-bottom));
       }
     }
@@ -223,18 +193,13 @@
   <div class="stage">
     <div class="container">
       
-      <!-- 满屏金币层 -->
       <div class="coin-container" id="coin-layer"></div>
 
-      <!-- 右侧悬浮控制面板：文字与按钮整体靠右展示 -->
-  
-
-        <!-- WEBSITE 按钮 -->
+      <div class="buttons-wrapper">
         <a id="website-btn" href="https://ritz99.net/RFR99F1" class="custom-btn btn-website">
           <span class="btn-icon">🌐</span> WEBSITE
         </a>
 
-        <!-- TELEGRAM BOT 按钮 -->
         <a href="https://t.me/Ritz99my_Bot?start=adlinkFBB1" target="_blank" rel="noopener" class="custom-btn btn-telegram">
           <span class="btn-icon">✈</span> TELEGRAM BOT
         </a>
@@ -244,7 +209,7 @@
   </div>
 
   <script>
-    // 1. 动态传递代理参数 (aff)
+    // 1. 动态自适应传递推广代理参数 (aff)
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       const aff = urlParams.get('aff');
@@ -257,7 +222,7 @@
       }
     })();
 
-    // 2. 满屏金币掉落
+    // 2. 高性能全屏 3D 金币随机掉落系统
     const coinLayer = document.getElementById('coin-layer');
     function createCoin() {
       if (!coinLayer) return;
@@ -281,13 +246,14 @@
       }, (duration + delay) * 1000 + 500);
     }
 
+    // 密集初始化满屏感
     const initCoinCount = window.innerWidth < 500 ? 35 : 55;
     for (let i = 0; i < initCoinCount; i++) {
       createCoin();
     }
     setInterval(createCoin, 350); 
 
-    // 阻止 iOS 全屏橡皮筋滚动
+    // 锁定移动端背景多余的滚动回弹
     document.addEventListener('touchmove', function(e) {
       if (e.target.closest('.container')) return;
       e.preventDefault();
