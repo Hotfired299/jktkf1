@@ -43,12 +43,12 @@
       aspect-ratio: 9 / 16;
       max-width: 576px; 
 
-      /* 保留您最新的精美背景图 */
-      background-image: url('https://static.gwvkyk.com/media/4df69b51475a6c57f5f4.png');
+      /* 放入您的精美背景图 */
+      background-image: url('https://static.gwvkyk.com/media/4df69b51475a63c57f5f4.png');
       background-size: cover;
       background-repeat: no-repeat;
-      /* 核心微调：让图片侧重左边 20%，完美把女孩子让到左侧，右下角纯净留给按钮 */
-      background-position: 20% center; 
+      /* 居中对齐，保证照片的原生正脸无缝融入 */
+      background-position: center center; 
       box-shadow: 0 0 30px rgba(0,0,0,0.9);
       overflow: hidden;
     }
@@ -94,13 +94,13 @@
     }
 
     /* =================================================
-       4. 右下角独立按钮区域（完全去掉干扰文案，绝不挡内容）
+       4. 右下角独立按钮区域（完全去掉干扰文案）
        ================================================= */
     .buttons-wrapper {
       position: absolute;
-      bottom: 22%;       /* 精准对齐在底部横幅 Banner 的正上方 */
-      right: 5%;         /* 完美靠右，给左侧画面留出充足空间 */
-      width: 48%;        /* 宽度优化，精巧且极其方便大拇指点击 */
+      bottom: 22%;       /* 精准对齐在底部横幅的上方空白安全区 */
+      right: 5%;         
+      width: 48%;        /* 精致小巧的宽度，方便单手点击 */
       display: flex;
       flex-direction: column;
       gap: 12px;         
@@ -196,7 +196,7 @@
       <!-- 满屏掉落金币层 -->
       <div class="coin-container" id="coin-layer"></div>
 
-      <!-- 右下角悬浮按钮组（不带任何干扰文案，纯净美观） -->
+      <!-- 右下角悬浮按钮组（清爽无文案） -->
       <div class="buttons-wrapper">
         <!-- WEBSITE 按钮 -->
         <a id="website-btn" href="https://ritz99.net/RFR99F1" class="custom-btn btn-website">
